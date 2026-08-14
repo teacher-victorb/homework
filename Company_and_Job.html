@@ -145,7 +145,6 @@ Burt’s Bees was founded in the late 1980s by Burt Shavitz and Roxanne Quimby i
 <div id="score" class="score">Not checked yet.</div>
 <p class="small">This score covers the automatically corrected activities only.</p>
 <button class="success" onclick="prepareSubmission()">Submit answers</button>
-<button class="secondary" onclick="downloadAnswers()">Download answers as JSON</button>
 <div id="submitStatus" class="feedback"></div>
 </section>
 
@@ -259,41 +258,77 @@ if(homeworkEl){
   homeworkEl.addEventListener("input",()=>updateWordCounter(homeworkEl,homeworkCounter,150,200));
 }
 function collectAnswers(){
-const data={studentName:document.getElementById("studentName").value,score:state.score,total:state.total,timestamp:new Date().toISOString(),answers:{}};
-document.querySelectorAll("input,select,textarea").forEach(el=>{if(el.id!=="studentName"&&el.dataset.key)data.answers[el.dataset.key]=el.value});
-document.querySelectorAll("[data-match],[data-vb],[data-lq],[data-ia],[data-ib],[data-scan]").forEach(el=>{data.answers[el.dataset.match||el.dataset.vb||el.dataset.lq||el.dataset.ia||el.dataset.ib||el.dataset.scan]=el.value});
-return data;
-}
-async function prepareSubmission(){
-const name=document.getElementById("studentName").value.trim();
-const status=document.getElementById("submitStatus");
-if(!name){
-  status.textContent="Please enter your name before submitting.";
-  status.className="feedback bad";
-  return;
-}
-const data=collectAnswers();
-status.textContent="Sending your answers...";
-status.className="feedback";
-
-try{
-  const response=await fetch(GOOGLE_SHEETS_URL,{
-    method:"POST",
-    mode:"no-cors",
-    headers:{"Content-Type":"text/plain;charset=utf-8"},
-    body:JSON.stringify(data)
+  const answers = {};
+  document.querySelectorAll("input,select,textarea").forEach(el=>{
+    if(el.id !== "studentName" && el.dataset.key){
+      answers[el.dataset.key] = el.value || "";
+    }
   });
-  status.textContent="Your answers have been sent successfully!";
-  status.className="feedback ok";
-}catch(error){
-  console.error(error);
-  status.textContent="There was a problem sending your answers. Please try again.";
-  status.className="feedback bad";
+
+  document.querySelectorAll("[data-match],[data-vb],[data-lq],[data-ia],[data-ib],[data-scan]").forEach(el=>{
+    const key = el.dataset.match || el.dataset.vb || el.dataset.lq || el.dataset.ia || el.dataset.ib || el.dataset.scan;
+    answers[key] = el.value || "";
+  });
+
+  return {
+    studentName: document.getElementById("studentName").value.trim(),
+    name: document.getElementById("studentName").value.trim(),
+    score: state.score,
+    total: state.total,
+    timestamp: new Date().toISOString(),
+    answers: answers
+  };
 }
-}
-function downloadAnswers(){
-const blob=new Blob([JSON.stringify(collectAnswers(),null,2)],{type:"application/json"});
-const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=(document.getElementById("studentName").value||"student")+"_company_and_job_answers.json";a.click();URL.revokeObjectURL(a.href);
+
+async function prepareSubmission(){
+  const data = collectAnswers();
+  const status = document.getElementById("submitStatus");
+
+  if(!data.studentName){
+    status.textContent = "Please enter your name before submitting.";
+    status.className = "feedback bad";
+    return;
+  }
+
+  status.textContent = "Sending your answers...";
+  status.className = "feedback";
+
+  /*
+    Google Apps Script commonly receives form submissions through e.parameter.
+    Therefore we send URL-encoded POST data rather than a raw JSON body.
+    We also send both "studentName" and "name" for compatibility.
+  */
+  const params = new URLSearchParams();
+  params.append("studentName", data.studentName);
+  params.append("name", data.name);
+  params.append("score", String(data.score));
+  params.append("total", String(data.total));
+  params.append("timestamp", data.timestamp);
+  params.append("answers", JSON.stringify(data.answers));
+
+  // Also send each answer as its own parameter, making the payload easier
+  // for Apps Script to place directly into separate spreadsheet columns.
+  Object.entries(data.answers).forEach(([key,value])=>{
+    params.append(key, value);
+  });
+
+  try{
+    await fetch(GOOGLE_SHEETS_URL,{
+      method:"POST",
+      mode:"no-cors",
+      headers:{
+        "Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"
+      },
+      body:params.toString()
+    });
+
+    status.textContent = "Your answers have been sent successfully!";
+    status.className = "feedback ok";
+  }catch(error){
+    console.error("Google Sheets submission error:", error);
+    status.textContent = "There was a problem sending your answers. Please try again.";
+    status.className = "feedback bad";
+  }
 }
 </script>
 </body>
