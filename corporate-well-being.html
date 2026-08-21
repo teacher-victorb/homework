@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="light" />
   <title>Corporate Well-Being | Activities 3, 4 & 9C</title>
+<meta name="homework-title" content="Corporate Well-Being">
+
   <style>
     :root {
       --blue: #0b4f8a;
@@ -440,8 +442,297 @@
       details.article:not([open]) .article-body { display: block; }
     }
   </style>
+
+<style id="ccli-standard-theme">
+  :root{
+    --ccli-blue:#0b4f8a;
+    --ccli-blue-dark:#083d6c;
+    --ccli-blue-soft:#eaf4fb;
+    --ccli-ink:#17212b;
+    --ccli-muted:#64748b;
+    --ccli-line:#d7e2ec;
+    --ccli-paper:#ffffff;
+    --ccli-page:#f4f7fa;
+    --ccli-green:#1f7a4d;
+    --ccli-red:#b42318;
+    --ccli-shadow:0 12px 32px rgba(19,46,73,.08);
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0 !important;
+    background:var(--ccli-page) !important;
+    color:var(--ccli-ink) !important;
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif !important;
+    line-height:1.55 !important;
+  }
+
+  .ccli-home-nav{
+    background:#062f57;
+    border-bottom:1px solid rgba(255,255,255,.12);
+  }
+
+  .ccli-home-nav-inner{
+    width:min(1020px,calc(100% - 32px));
+    margin:0 auto;
+    padding:10px 0;
+  }
+
+  .ccli-home-button{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 12px;
+    border:1px solid rgba(255,255,255,.3);
+    border-radius:999px;
+    color:#fff !important;
+    text-decoration:none !important;
+    font-size:.88rem;
+    font-weight:800;
+    background:rgba(255,255,255,.08);
+    transition:background .15s ease,transform .08s ease;
+  }
+
+  .ccli-home-button:hover{
+    background:rgba(255,255,255,.16);
+  }
+
+  .ccli-home-button:active{transform:translateY(1px)}
+
+  body > header,
+  header.topbar{
+    background:linear-gradient(135deg,var(--ccli-blue-dark),var(--ccli-blue)) !important;
+    color:#fff !important;
+    padding:28px 20px 26px !important;
+    text-align:left !important;
+  }
+
+  body > header > h1,
+  body > header > p,
+  body > header > div:not(.topbar-inner){
+    width:min(1020px,calc(100% - 32px));
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+
+  header.topbar .topbar-inner{
+    width:min(1020px,calc(100% - 32px)) !important;
+    margin:0 auto !important;
+  }
+
+  body > header h1,
+  header.topbar h1{
+    margin-top:0 !important;
+    margin-bottom:6px !important;
+    color:#fff !important;
+    font-size:clamp(2rem,4vw,3rem) !important;
+    line-height:1.08 !important;
+    letter-spacing:-.035em !important;
+  }
+
+  body > header p,
+  header.topbar .subtitle,
+  body > header > div:not(.topbar-inner){
+    color:rgba(255,255,255,.9) !important;
+  }
+
+  main,
+  .container{
+    width:min(1020px,calc(100% - 32px)) !important;
+    max-width:1020px !important;
+    margin:0 auto !important;
+    padding:26px 0 52px !important;
+  }
+
+  .card,
+  .activity,
+  .student,
+  main > section,
+  .container > section,
+  .submit{
+    background:var(--ccli-paper) !important;
+    border:1px solid var(--ccli-line) !important;
+    border-radius:18px !important;
+    box-shadow:var(--ccli-shadow) !important;
+  }
+
+  .card,
+  .activity,
+  .student,
+  main > section,
+  .container > section{
+    padding:clamp(18px,3vw,28px) !important;
+    margin:0 0 22px !important;
+  }
+
+  .submit{
+    padding:16px !important;
+  }
+
+  h2{
+    color:var(--ccli-blue-dark) !important;
+    letter-spacing:-.015em;
+  }
+
+  h3{
+    color:var(--ccli-blue) !important;
+  }
+
+  input:not([type="radio"]):not([type="checkbox"]),
+  textarea,
+  select{
+    border:1.5px solid #b8c8d8 !important;
+    border-radius:10px !important;
+    background:#fff !important;
+    color:var(--ccli-ink) !important;
+    font:inherit !important;
+    padding:10px 12px !important;
+    outline:none !important;
+    transition:border-color .16s ease,box-shadow .16s ease !important;
+  }
+
+  input:not([type="radio"]):not([type="checkbox"]):focus,
+  textarea:focus,
+  select:focus{
+    border-color:var(--ccli-blue) !important;
+    box-shadow:0 0 0 3px rgba(11,79,138,.12) !important;
+  }
+
+  textarea{
+    resize:vertical !important;
+    min-height:90px;
+  }
+
+  button{
+    border:0 !important;
+    border-radius:10px !important;
+    padding:11px 16px !important;
+    background:var(--ccli-blue) !important;
+    color:#fff !important;
+    font:inherit !important;
+    font-weight:800 !important;
+    cursor:pointer !important;
+    transition:filter .15s ease,transform .06s ease !important;
+  }
+
+  button:hover{filter:brightness(.95)}
+  button:active{transform:translateY(1px)}
+  button:disabled{opacity:.6;cursor:not-allowed}
+
+  button.success,
+  .send-btn{
+    background:#111827 !important;
+  }
+
+  button.secondary,
+  .secondary,
+  .btn-secondary{
+    background:#e9f0f6 !important;
+    color:var(--ccli-blue-dark) !important;
+  }
+
+  .q,
+  .question,
+  .sentence-item{
+    border:1px solid #e4ebf1 !important;
+    border-radius:12px !important;
+    background:#fbfdff !important;
+  }
+
+  .reading,
+  .article{
+    background:#f8fbfe !important;
+    border:1px solid #dbe7f0 !important;
+    border-left:4px solid var(--ccli-blue) !important;
+    border-radius:12px !important;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    background:#fff;
+  }
+
+  th,td{
+    border:1px solid var(--ccli-line) !important;
+    padding:9px !important;
+  }
+
+  th{
+    background:var(--ccli-blue-soft) !important;
+    color:var(--ccli-blue-dark) !important;
+  }
+
+  audio{
+    width:100% !important;
+    margin:10px 0 16px !important;
+  }
+
+  .small,
+  .note,
+  .wordcount,
+  .word-counter{
+    color:var(--ccli-muted) !important;
+  }
+
+  .wordcount.ok,
+  .word-counter.ready{
+    color:var(--ccli-green) !important;
+  }
+
+  .ccli-footer{
+    width:min(1020px,calc(100% - 32px));
+    margin:0 auto;
+    padding:0 0 34px;
+    text-align:center;
+    color:#7b8794;
+    font-size:.8rem;
+  }
+
+  @media(max-width:650px){
+    .ccli-home-nav-inner,
+    body > header > h1,
+    body > header > p,
+    body > header > div:not(.topbar-inner),
+    header.topbar .topbar-inner,
+    main,
+    .container,
+    .ccli-footer{
+      width:min(100% - 20px,1020px) !important;
+    }
+
+    body > header,
+    header.topbar{
+      padding:24px 10px 22px !important;
+    }
+
+    .card,
+    .activity,
+    .student,
+    main > section,
+    .container > section{
+      border-radius:14px !important;
+      padding:16px !important;
+    }
+  }
+
+  @media print{
+    .ccli-home-nav,
+    .ccli-footer{
+      display:none !important;
+    }
+  }
+</style>
+
 </head>
 <body>
+<div class="ccli-home-nav">
+  <div class="ccli-home-nav-inner">
+    <a class="ccli-home-button" href="https://teacher-victorb.github.io/homework/" aria-label="Back to Homework home">← Back to Homework</a>
+  </div>
+</div>
+
   <header class="topbar">
     <div class="topbar-inner">
       <p class="eyebrow">Business English · Intermediate (B1–B2)</p>
@@ -625,7 +916,7 @@
     (() => {
       'use strict';
 
-      const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyzcTbYg7lqrloWDoGIxAOepLz2YZsGq0LzhyS1RMlxlgO4E1Od30vkuIPqOdV754jERA/exec';
+      const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzlfhZOfBp4vfkU3Tn_1KzIn53WkIyHjlR_RnhFFkLevk8efqz2x5XSkCvoS7NkNKa4/exec';
       const LESSON_NAME = 'Corporate Well-Being - Activities 3, 4 & 9C';
 
       const answerKey = {
@@ -921,5 +1212,6 @@
       calculateAll(false);
     })();
   </script>
+<footer class="ccli-footer">CCLi · Interactive Homework</footer>
 </body>
 </html>
