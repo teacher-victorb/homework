@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light" />
+  <title>Corporate Well-Being | Activities 3, 4 & 9C</title>
+  <style>
+    :root {
+      --blue: #0b4f8a;
+      --blue-dark: #083d6c;
+      --blue-soft: #eaf4fb;
+      --ink: #17212b;
+      --muted: #64748b;
+      --line: #d7e2ec;
+      --paper: #ffffff;
+      --page: #f4f7fa;
+      --green: #1f7a4d;
+      --green-soft: #eaf8f0;
+      --red: #b42318;
+      --red-soft: #fff0ee;
+      --amber: #8a5a00;
+      --amber-soft: #fff7df;
+      --shadow: 0 12px 32px rgba(19, 46, 73, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    .topbar {
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+      color: #fff;
+      padding: 28px 20px 24px;
+    }
+
+    .topbar-inner,
+    main {
+      width: min(1020px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      margin: 0 0 4px;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      opacity: 0.85;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+    }
+
+    .subtitle {
+      margin: 9px 0 0;
+      max-width: 720px;
+      color: rgba(255,255,255,0.88);
+    }
+
+    main { padding: 26px 0 52px; }
+
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: clamp(18px, 3vw, 30px);
+      margin-bottom: 22px;
+    }
+
+    .student-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.7fr);
+      gap: 16px;
+    }
+
+    label.field-label {
+      display: block;
+      font-size: 0.87rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--blue-dark);
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      border: 1.5px solid #b8c8d8;
+      border-radius: 10px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      padding: 10px 12px;
+      outline: none;
+      transition: border-color .16s ease, box-shadow .16s ease, background .16s ease;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(11, 79, 138, 0.12);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 74px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 8px;
+      font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+      color: var(--blue-dark);
+      letter-spacing: -0.02em;
+    }
+
+    .badge {
+      display: inline-grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      flex: 0 0 38px;
+      border-radius: 9px;
+      background: var(--blue);
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+
+    .instruction {
+      margin: 0 0 20px;
+      color: #35485b;
+      font-weight: 600;
+    }
+
+    details.article {
+      overflow: hidden;
+      padding: 0;
+    }
+
+    details.article > summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 19px 24px;
+      font-weight: 800;
+      color: var(--blue-dark);
+      background: var(--blue-soft);
+      border-radius: 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+    }
+
+    details.article[open] > summary {
+      border-radius: 18px 18px 0 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    details.article > summary::-webkit-details-marker { display: none; }
+    details.article > summary::after { content: "＋"; font-size: 1.3rem; }
+    details.article[open] > summary::after { content: "−"; }
+
+    .article-body { padding: 22px 24px 24px; }
+    .article-kicker { color: var(--muted); margin: 0; font-size: .88rem; font-weight: 700; }
+    .article-title { margin: 2px 0 1px; font-size: 1.65rem; color: #111827; }
+    .article-subtitle { margin: 0 0 24px; font-size: 1rem; font-weight: 700; }
+    .paragraph-block + .paragraph-block { margin-top: 24px; }
+    .paragraph-heading { margin: 0 0 7px; color: var(--blue-dark); font-size: 1.05rem; }
+    .paragraph-heading span { display: inline-block; min-width: 28px; color: var(--blue); }
+    .paragraph-block p { margin: 0; text-align: left; }
+
+    .question-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .question {
+      display: grid;
+      grid-template-columns: 34px minmax(150px, 240px) minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid #e4ebf1;
+      border-radius: 12px;
+      background: #fbfdff;
+    }
+
+    .qnum {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #edf3f8;
+      color: var(--blue-dark);
+      font-weight: 800;
+      font-size: .9rem;
+    }
+
+    .answer-input.correct,
+    select.correct {
+      border-color: var(--green);
+      background: var(--green-soft);
+    }
+
+    .answer-input.incorrect,
+    select.incorrect {
+      border-color: var(--red);
+      background: var(--red-soft);
+    }
+
+    .feedback {
+      margin-top: 7px;
+      font-size: .83rem;
+      font-weight: 700;
+      min-height: 1.1em;
+    }
+
+    .feedback.good { color: var(--green); }
+    .feedback.bad { color: var(--red); }
+
+    .section-actions {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 16px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .06s ease, filter .16s ease, opacity .16s ease;
+    }
+
+    button:active { transform: translateY(1px); }
+    button:disabled { cursor: not-allowed; opacity: .58; }
+
+    .btn-primary { background: var(--blue); color: #fff; }
+    .btn-primary:hover { filter: brightness(.95); }
+    .btn-secondary { background: #e9f0f6; color: var(--blue-dark); }
+
+    .score-chip {
+      margin-left: auto;
+      font-size: .9rem;
+      font-weight: 800;
+      color: var(--blue-dark);
+      background: var(--blue-soft);
+      padding: 8px 11px;
+      border-radius: 999px;
+    }
+
+    .word-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 13px;
+      margin: 10px 0 18px;
+      border: 1px dashed #9fb7cc;
+      border-radius: 12px;
+      background: #f8fbfe;
+    }
+
+    .word-bank span {
+      padding: 6px 10px;
+      background: #fff;
+      border: 1px solid #cad8e4;
+      border-radius: 999px;
+      font-size: .9rem;
+      font-weight: 700;
+    }
+
+    .sentence-grid { display: grid; gap: 11px; }
+    .sentence-item {
+      display: grid;
+      grid-template-columns: 34px minmax(140px, 200px) minmax(0, 1fr);
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: #fbfdff;
+      border: 1px solid #e4ebf1;
+    }
+
+    .writing-head {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin: 28px 0 14px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .writing-head h3 { margin: 0; color: var(--blue-dark); }
+    .word-total {
+      font-weight: 800;
+      color: var(--blue-dark);
+      background: var(--amber-soft);
+      border: 1px solid #efd792;
+      border-radius: 999px;
+      padding: 7px 11px;
+    }
+
+    .writing-list { display: grid; gap: 14px; }
+    .writing-item {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+    }
+
+    .starter {
+      display: inline-block;
+      font-weight: 800;
+      color: #334155;
+      margin-bottom: 7px;
+    }
+
+    .word-mini {
+      display: block;
+      text-align: right;
+      color: var(--muted);
+      font-size: .8rem;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+
+    .submit-card {
+      background: linear-gradient(180deg, #ffffff, #f8fbfe);
+    }
+
+    .submit-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: end;
+    }
+
+    .summary-box {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .summary-stat {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .summary-stat strong {
+      display: block;
+      font-size: 1.25rem;
+      color: var(--blue-dark);
+    }
+
+    .summary-stat span { color: var(--muted); font-size: .8rem; font-weight: 700; }
+
+    .send-btn {
+      min-width: 180px;
+      min-height: 48px;
+      background: #111827;
+      color: #fff;
+    }
+
+    .send-status {
+      margin-top: 13px;
+      border-radius: 10px;
+      padding: 11px 13px;
+      display: none;
+      font-weight: 700;
+    }
+
+    .send-status.ok { display: block; color: var(--green); background: var(--green-soft); }
+    .send-status.err { display: block; color: var(--red); background: var(--red-soft); }
+
+    .note {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #7b8794;
+      font-size: .78rem;
+      padding: 4px 0 20px;
+    }
+
+    @media (max-width: 780px) {
+      .student-grid, .submit-grid { grid-template-columns: 1fr; }
+      .question, .sentence-item { grid-template-columns: 30px minmax(0, 1fr); }
+      .question > .definition, .sentence-item > .sentence-tail { grid-column: 2; }
+      .score-chip { margin-left: 0; }
+      .summary-box { grid-template-columns: 1fr 1fr 1fr; }
+      .send-btn { width: 100%; }
+    }
+
+    @media (max-width: 480px) {
+      .topbar-inner, main { width: min(100% - 20px, 1020px); }
+      .card { border-radius: 14px; padding: 16px; }
+      details.article > summary { border-radius: 14px; padding: 16px; }
+      details.article[open] > summary { border-radius: 14px 14px 0 0; }
+      .article-body { padding: 17px 16px 19px; }
+      .summary-box { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      .topbar { background: #fff !important; color: #111 !important; border-bottom: 2px solid #111; }
+      body { background: #fff; }
+      .card { box-shadow: none; break-inside: avoid; }
+      button, .send-status { display: none !important; }
+      details.article > summary { display: none; }
+      details.article:not([open]) .article-body { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <p class="eyebrow">Business English · Intermediate (B1–B2)</p>
+      <h1>Corporate Well-Being</h1>
+      <p class="subtitle">Interactive practice · Activities 3, 4 and 9C</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="card" aria-labelledby="student-info-title">
+      <h2 id="student-info-title" class="section-title" style="font-size:1.35rem;">
+        <span class="badge" aria-hidden="true">✓</span>
+        Student information
+      </h2>
+      <div class="student-grid">
+        <div>
+          <label class="field-label" for="studentName">Name *</label>
+          <input id="studentName" type="text" autocomplete="name" placeholder="Your full name" />
+        </div>
+        <div>
+          <label class="field-label" for="studentId">Student ID</label>
+          <input id="studentId" type="text" autocomplete="off" placeholder="Optional" />
+        </div>
+      </div>
+    </section>
+
+    <details class="card article" open>
+      <summary>Reading text for Activity 3</summary>
+      <div class="article-body">
+        <p class="article-kicker">Reference text</p>
+        <h2 class="article-title">Introducing corporate wellbeing</h2>
+        <p class="article-subtitle">What to do and why you should</p>
+
+        <div class="paragraph-block">
+          <h3 class="paragraph-heading"><span>A.</span> What is a well-being program?</h3>
+          <p>Including a program which focuses on the health of your employees can take a number of forms. Make sure that there is easy access to healthy food. We’re all tempted to snack on biscuits and chocolate throughout the work day, so offering alternatives such as fruit and nuts, as well as balanced meals at lunchtime is a good start that will affect everyone. You can also check chairs, desks and computers for any signs that workers are sitting and working in a way that will cause them physical problems. Subsidizing yoga classes, gym memberships and massages is another good idea. If you have the room, you can employ an instructor to come to the office and give classes at lunchtime. Competitions to see who can lose the most weight, walk the most number of steps or run the most number of miles each week is another good way to both encourage a healthy lifestyle and create a more social environment.</p>
+        </div>
+
+        <div class="paragraph-block">
+          <h3 class="paragraph-heading"><span>B.</span> Improving health</h3>
+          <p>There are a number of reasons for having a program like this, both obvious and less obvious. Healthy employees means that there will be fewer days taken as sick leave. As well as having greater amounts of energy, they will be more likely to avoid mental health issues too, such as depression, which can negatively affect people for different periods of time and cause problems with focusing on their job. If someone has poor physical or mental health, there will be greater risks of long-term illnesses which can lead to people being off work for months. Of course, there are also costs to a company when someone takes time off sick, particularly if the company pays for healthcare.</p>
+        </div>
+
+        <div class="paragraph-block">
+          <h3 class="paragraph-heading"><span>C.</span> Improving positive feelings</h3>
+          <p>There’s also the positive effect wellbeing programs can have on morale. A workplace which workers enjoy coming to each day will make them happier, work harder and also reduce the number of employees who leave. The costs and time involved in replacing people who leave can really add up, as well as creating problems for the team they leave behind. Not only this, but it’s a good way to attract new talent to a company. Happy employees will talk about their experience to family and friends and it won’t take long for your company to gain a reputation as a great place to work. If you invest in your employees, you will also invest in the company. So if you’ve yet to create a wellbeing program in your company, talk to your employees about what they want to do. You will be on your way to a happier, healthier workplace.</p>
+        </div>
+      </div>
+    </details>
+
+    <section class="card" id="activity3">
+      <h2 class="section-title"><span class="badge">3</span>Scanning for vocabulary</h2>
+      <p class="instruction">Find vocabulary in the reading text above which means the same as the following definitions.</p>
+      <div class="question-list">
+        <div class="question" data-question="a3q1">
+          <span class="qnum">1</span>
+          <div><input class="answer-input" id="a3q1" type="text" autocomplete="off" spellcheck="false"><div class="feedback" aria-live="polite"></div></div>
+          <div class="definition">containing similar amounts of different elements (adj., para. A)</div>
+        </div>
+        <div class="question" data-question="a3q2">
+          <span class="qnum">2</span>
+          <div><input class="answer-input" id="a3q2" type="text" autocomplete="off" spellcheck="false"><div class="feedback" aria-live="polite"></div></div>
+          <div class="definition">give money to make something cheaper for people (v, para. A)</div>
+        </div>
+        <div class="question" data-question="a3q3">
+          <span class="qnum">3</span>
+          <div><input class="answer-input" id="a3q3" type="text" autocomplete="off" spellcheck="false"><div class="feedback" aria-live="polite"></div></div>
+          <div class="definition">the action of rubbing and pressing on someone’s body to improve their health and reduce pain (n, para. A)</div>
+        </div>
+        <div class="question" data-question="a3q4">
+          <span class="qnum">4</span>
+          <div><input class="answer-input" id="a3q4" type="text" autocomplete="off" spellcheck="false"><div class="feedback" aria-live="polite"></div></div>
+          <div class="definition">a mental illness where someone feels deeply unhappy and not positive about the future (n, para. B)</div>
+        </div>
+        <div class="question" data-question="a3q5">
+          <span class="qnum">5</span>
+          <div><input class="answer-input" id="a3q5" type="text" autocomplete="off" spellcheck="false"><div class="feedback" aria-live="polite"></div></div>
+          <div class="definition">taking place over an extended period of time (adj., para. B)</div>
+        </div>
+        <div class="question" data-question="a3q6">
+          <span class="qnum">6</span>
+          <div><input class="answer-input" id="a3q6" type="text" autocomplete="off" spellcheck="false"><div class="feedback" aria-live="polite"></div></div>
+          <div class="definition">medical service for people who are physically or mentally sick (n, para. B)</div>
+        </div>
+        <div class="question" data-question="a3q7">
+          <span class="qnum">7</span>
+          <div><input class="answer-input" id="a3q7" type="text" autocomplete="off" spellcheck="false"><div class="feedback" aria-live="polite"></div></div>
+          <div class="definition">the positivity and confidence a person or group of people have in a particular situation (n, para. C)</div>
+        </div>
+        <div class="question" data-question="a3q8">
+          <span class="qnum">8</span>
+          <div><input class="answer-input" id="a3q8" type="text" autocomplete="off" spellcheck="false"><div class="feedback" aria-live="polite"></div></div>
+          <div class="definition">the idea that people have about a company or person based on their behavior in the past (n, para. C)</div>
+        </div>
+      </div>
+      <div class="section-actions">
+        <button class="btn-primary" type="button" data-check="activity3">Check Activity 3</button>
+        <span class="score-chip" id="score3">0 / 8 correct</span>
+      </div>
+    </section>
+
+    <section class="card" id="activity4">
+      <h2 class="section-title"><span class="badge">4</span>Reading comprehension</h2>
+      <p class="instruction">Complete the notes with one, two or three words from the article.</p>
+      <div class="question-list">
+        <div class="question" data-question="a4q1"><span class="qnum">1</span><div><input class="answer-input" id="a4q1" type="text" autocomplete="off"><div class="feedback" aria-live="polite"></div></div><div class="definition">Provide healthy food so that employees are less <strong>_____</strong> to eat poorly during the work day.</div></div>
+        <div class="question" data-question="a4q2"><span class="qnum">2</span><div><input class="answer-input" id="a4q2" type="text" autocomplete="off"><div class="feedback" aria-live="polite"></div></div><div class="definition">Check that <strong>_____</strong> aren’t being created by computers and desks being at the wrong height.</div></div>
+        <div class="question" data-question="a4q3"><span class="qnum">3</span><div><input class="answer-input" id="a4q3" type="text" autocomplete="off"><div class="feedback" aria-live="polite"></div></div><div class="definition">Set up classes during <strong>_____</strong> so that employees can get fit or relax.</div></div>
+        <div class="question" data-question="a4q4"><span class="qnum">4</span><div><input class="answer-input" id="a4q4" type="text" autocomplete="off"><div class="feedback" aria-live="polite"></div></div><div class="definition">Benefits from wellness programs include: reduced amount of <strong>_____</strong> that employees will take...</div></div>
+        <div class="question" data-question="a4q5"><span class="qnum">5</span><div><input class="answer-input" id="a4q5" type="text" autocomplete="off"><div class="feedback" aria-live="polite"></div></div><div class="definition">...as well as fewer <strong>_____</strong>.</div></div>
+        <div class="question" data-question="a4q6"><span class="qnum">6</span><div><input class="answer-input" id="a4q6" type="text" autocomplete="off"><div class="feedback" aria-live="polite"></div></div><div class="definition">In turn, this can lower <strong>_____</strong> to the company.</div></div>
+        <div class="question" data-question="a4q7"><span class="qnum">7</span><div><input class="answer-input" id="a4q7" type="text" autocomplete="off"><div class="feedback" aria-live="polite"></div></div><div class="definition">When you <strong>_____</strong> the amount of time and money spent on hiring new staff, it’s much better if employees stay longer.</div></div>
+        <div class="question" data-question="a4q8"><span class="qnum">8</span><div><input class="answer-input" id="a4q8" type="text" autocomplete="off"><div class="feedback" aria-live="polite"></div></div><div class="definition">When you look after your staff, you effectively <strong>_____</strong> the company meaning it’s positive for everyone.</div></div>
+      </div>
+      <div class="section-actions">
+        <button class="btn-primary" type="button" data-check="activity4">Check Activity 4</button>
+        <span class="score-chip" id="score4">0 / 8 correct</span>
+      </div>
+    </section>
+
+    <section class="card" id="activity9c">
+      <h2 class="section-title"><span class="badge">9C</span>First conditional</h2>
+      <p class="instruction">Complete the sentences using the words in the box.</p>
+
+      <div class="word-bank" aria-label="Word bank">
+        <span>isn’t</span><span>will go</span><span>increasing</span><span>do</span><span>when</span><span>might</span>
+      </div>
+
+      <div class="sentence-grid">
+        <div class="sentence-item" data-question="a9q1"><span class="qnum">1</span><div><select id="a9q1"><option value="">Choose…</option><option>isn’t</option><option>will go</option><option>increasing</option><option>do</option><option>when</option><option>might</option></select><div class="feedback" aria-live="polite"></div></div><div class="sentence-tail">As well as _____ the amount of healthy food available, we will also offer yoga classes at lunch.</div></div>
+        <div class="sentence-item" data-question="a9q2"><span class="qnum">2</span><div><select id="a9q2"><option value="">Choose…</option><option>isn’t</option><option>will go</option><option>increasing</option><option>do</option><option>when</option><option>might</option></select><div class="feedback" aria-live="polite"></div></div><div class="sentence-tail">_____ they introduce a wellness program, the number of sick days will reduce.</div></div>
+        <div class="sentence-item" data-question="a9q3"><span class="qnum">3</span><div><select id="a9q3"><option value="">Choose…</option><option>isn’t</option><option>will go</option><option>increasing</option><option>do</option><option>when</option><option>might</option></select><div class="feedback" aria-live="polite"></div></div><div class="sentence-tail">Can you start a wellness program if there _____ one available?</div></div>
+        <div class="sentence-item" data-question="a9q4"><span class="qnum">4</span><div><select id="a9q4"><option value="">Choose…</option><option>isn’t</option><option>will go</option><option>increasing</option><option>do</option><option>when</option><option>might</option></select><div class="feedback" aria-live="polite"></div></div><div class="sentence-tail">We _____ go to the gym at lunchtime if there is enough time.</div></div>
+        <div class="sentence-item" data-question="a9q5"><span class="qnum">5</span><div><select id="a9q5"><option value="">Choose…</option><option>isn’t</option><option>will go</option><option>increasing</option><option>do</option><option>when</option><option>might</option></select><div class="feedback" aria-live="polite"></div></div><div class="sentence-tail">As soon as we finish work today, we _____ and eat together at a local restaurant.</div></div>
+        <div class="sentence-item" data-question="a9q6"><span class="qnum">6</span><div><select id="a9q6"><option value="">Choose…</option><option>isn’t</option><option>will go</option><option>increasing</option><option>do</option><option>when</option><option>might</option></select><div class="feedback" aria-live="polite"></div></div><div class="sentence-tail">If you _____ yoga or a sport at lunchtime, you will feel better in the afternoon.</div></div>
+      </div>
+
+      <div class="section-actions">
+        <button class="btn-primary" type="button" data-check="activity9c">Check Activity 9C</button>
+        <span class="score-chip" id="score9">0 / 6 correct</span>
+      </div>
+
+      <div class="writing-head">
+        <div>
+          <h3>Now write the first conditional sentences with your own ideas.</h3>
+          <p class="note">Complete each sentence starter. Writing is sent to your teacher and is not auto-scored.</p>
+        </div>
+        <div class="word-total" id="wordTotal">0 words</div>
+      </div>
+
+      <div class="writing-list">
+        <div class="writing-item"><span class="qnum">1</span><div><span class="starter">As soon as my manager…</span><textarea id="w1" class="writing-input" placeholder="Continue the sentence..."></textarea><span class="word-mini" data-word-for="w1">0 words</span></div></div>
+        <div class="writing-item"><span class="qnum">2</span><div><span class="starter">When my company…</span><textarea id="w2" class="writing-input" placeholder="Continue the sentence..."></textarea><span class="word-mini" data-word-for="w2">0 words</span></div></div>
+        <div class="writing-item"><span class="qnum">3</span><div><span class="starter">As well as…</span><textarea id="w3" class="writing-input" placeholder="Continue the sentence..."></textarea><span class="word-mini" data-word-for="w3">0 words</span></div></div>
+        <div class="writing-item"><span class="qnum">4</span><div><span class="starter">Our team might…</span><textarea id="w4" class="writing-input" placeholder="Continue the sentence..."></textarea><span class="word-mini" data-word-for="w4">0 words</span></div></div>
+        <div class="writing-item"><span class="qnum">5</span><div><span class="starter">We can…</span><textarea id="w5" class="writing-input" placeholder="Continue the sentence..."></textarea><span class="word-mini" data-word-for="w5">0 words</span></div></div>
+        <div class="writing-item"><span class="qnum">6</span><div><span class="starter">I will be…</span><textarea id="w6" class="writing-input" placeholder="Continue the sentence..."></textarea><span class="word-mini" data-word-for="w6">0 words</span></div></div>
+      </div>
+    </section>
+
+    <section class="card submit-card" aria-labelledby="submit-title">
+      <div class="submit-grid">
+        <div>
+          <h2 id="submit-title" class="section-title" style="font-size:1.35rem;margin-bottom:4px;">Ready to send?</h2>
+          <p class="note">Your objective answers are checked automatically. Your writing will be reviewed by your teacher.</p>
+          <div class="summary-box">
+            <div class="summary-stat"><strong id="sumCorrect">0</strong><span>correct</span></div>
+            <div class="summary-stat"><strong id="sumPercent">0%</strong><span>objective score</span></div>
+            <div class="summary-stat"><strong id="sumWords">0</strong><span>writing words</span></div>
+          </div>
+        </div>
+        <button class="send-btn" id="sendBtn" type="button">Send to Teacher</button>
+      </div>
+      <div id="sendStatus" class="send-status" role="status" aria-live="polite"></div>
+    </section>
+
+    <p class="footer-note">Interactive adaptation for classroom use · Corporate Well-Being</p>
+  </main>
+
+  <script>
+    (() => {
+      'use strict';
+
+      const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyzcTbYg7lqrloWDoGIxAOepLz2YZsGq0LzhyS1RMlxlgO4E1Od30vkuIPqOdV754jERA/exec';
+      const LESSON_NAME = 'Corporate Well-Being - Activities 3, 4 & 9C';
+
+      const answerKey = {
+        a3q1: ['balanced'],
+        a3q2: ['subsidize'],
+        a3q3: ['massage'],
+        a3q4: ['depression'],
+        a3q5: ['long-term', 'long term'],
+        a3q6: ['healthcare', 'health care'],
+        a3q7: ['morale'],
+        a3q8: ['reputation'],
+        a4q1: ['tempted'],
+        a4q2: ['physical problems'],
+        a4q3: ['lunchtime', 'lunch time'],
+        a4q4: ['sick leave'],
+        a4q5: ['mental health issues'],
+        a4q6: ['costs'],
+        a4q7: ['add up'],
+        a4q8: ['invest in'],
+        a9q1: ['increasing'],
+        a9q2: ['when'],
+        a9q3: ["isn't", 'isn’t'],
+        a9q4: ['might'],
+        a9q5: ['will go'],
+        a9q6: ['do']
+      };
+
+      const groups = {
+        activity3: ['a3q1','a3q2','a3q3','a3q4','a3q5','a3q6','a3q7','a3q8'],
+        activity4: ['a4q1','a4q2','a4q3','a4q4','a4q5','a4q6','a4q7','a4q8'],
+        activity9c: ['a9q1','a9q2','a9q3','a9q4','a9q5','a9q6']
+      };
+
+      const scoreLabels = {
+        activity3: document.getElementById('score3'),
+        activity4: document.getElementById('score4'),
+        activity9c: document.getElementById('score9')
+      };
+
+      const normalize = (value) => String(value || '')
+        .trim()
+        .toLowerCase()
+        .replace(/[’‘]/g, "'")
+        .replace(/[–—]/g, '-')
+        .replace(/\s+/g, ' ')
+        .replace(/[.!?]+$/g, '');
+
+      function isCorrect(id) {
+        const el = document.getElementById(id);
+        const value = normalize(el.value);
+        return answerKey[id].some(ans => normalize(ans) === value);
+      }
+
+      function paintAnswer(id, showFeedback = true) {
+        const el = document.getElementById(id);
+        const wrapper = el.closest('[data-question]');
+        const feedback = wrapper ? wrapper.querySelector('.feedback') : null;
+        const correct = isCorrect(id);
+
+        el.classList.remove('correct', 'incorrect');
+        if (!el.value) {
+          if (feedback) {
+            feedback.textContent = showFeedback ? 'Answer this item first.' : '';
+            feedback.className = showFeedback ? 'feedback bad' : 'feedback';
+          }
+          return false;
+        }
+
+        el.classList.add(correct ? 'correct' : 'incorrect');
+        if (feedback && showFeedback) {
+          feedback.textContent = correct ? 'Correct!' : 'Check this answer and try again.';
+          feedback.className = correct ? 'feedback good' : 'feedback bad';
+        }
+        return correct;
+      }
+
+      function calculateGroup(groupName, paint = false) {
+        const ids = groups[groupName];
+        let correct = 0;
+        ids.forEach(id => {
+          if (paint ? paintAnswer(id, true) : isCorrect(id)) correct += 1;
+        });
+        scoreLabels[groupName].textContent = `${correct} / ${ids.length} correct`;
+        return { correct, total: ids.length };
+      }
+
+      function calculateAll(paint = false) {
+        let correct = 0;
+        let total = 0;
+        Object.keys(groups).forEach(group => {
+          const score = calculateGroup(group, paint);
+          correct += score.correct;
+          total += score.total;
+        });
+        const percent = total ? Math.round((correct / total) * 100) : 0;
+        document.getElementById('sumCorrect').textContent = `${correct}/${total}`;
+        document.getElementById('sumPercent').textContent = `${percent}%`;
+        return { correct, total, percent };
+      }
+
+      document.querySelectorAll('[data-check]').forEach(button => {
+        button.addEventListener('click', () => {
+          calculateGroup(button.dataset.check, true);
+          calculateAll(false);
+        });
+      });
+
+      document.querySelectorAll('.answer-input, select').forEach(el => {
+        el.addEventListener('input', () => {
+          el.classList.remove('correct', 'incorrect');
+          const feedback = el.closest('[data-question]')?.querySelector('.feedback');
+          if (feedback) {
+            feedback.textContent = '';
+            feedback.className = 'feedback';
+          }
+          calculateAll(false);
+          saveDraft();
+        });
+        el.addEventListener('change', () => {
+          calculateAll(false);
+          saveDraft();
+        });
+      });
+
+      function countWords(text) {
+        const cleaned = String(text || '').trim();
+        if (!cleaned) return 0;
+        try {
+          const matches = cleaned.match(/[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu);
+          return matches ? matches.length : 0;
+        } catch (_) {
+          return cleaned.split(/\s+/).filter(Boolean).length;
+        }
+      }
+
+      function updateWordCounts() {
+        let total = 0;
+        document.querySelectorAll('.writing-input').forEach(area => {
+          const words = countWords(area.value);
+          total += words;
+          const mini = document.querySelector(`[data-word-for="${area.id}"]`);
+          if (mini) mini.textContent = `${words} ${words === 1 ? 'word' : 'words'}`;
+        });
+        document.getElementById('wordTotal').textContent = `${total} ${total === 1 ? 'word' : 'words'}`;
+        document.getElementById('sumWords').textContent = total;
+        return total;
+      }
+
+      document.querySelectorAll('.writing-input').forEach(area => {
+        area.addEventListener('input', () => {
+          updateWordCounts();
+          saveDraft();
+        });
+      });
+
+      const studentName = document.getElementById('studentName');
+      const studentId = document.getElementById('studentId');
+      [studentName, studentId].forEach(el => el.addEventListener('input', saveDraft));
+
+      function collectAnswers() {
+        const get = id => document.getElementById(id).value.trim();
+        return {
+          activity_3_scanning_for_vocabulary: {
+            '1': get('a3q1'), '2': get('a3q2'), '3': get('a3q3'), '4': get('a3q4'),
+            '5': get('a3q5'), '6': get('a3q6'), '7': get('a3q7'), '8': get('a3q8')
+          },
+          activity_4_reading_comprehension: {
+            '1': get('a4q1'), '2': get('a4q2'), '3': get('a4q3'), '4': get('a4q4'),
+            '5': get('a4q5'), '6': get('a4q6'), '7': get('a4q7'), '8': get('a4q8')
+          },
+          activity_9C_first_conditional: {
+            gap_fill: {
+              '1': get('a9q1'), '2': get('a9q2'), '3': get('a9q3'),
+              '4': get('a9q4'), '5': get('a9q5'), '6': get('a9q6')
+            },
+            writing: {
+              '1_As soon as my manager': get('w1'),
+              '2_When my company': get('w2'),
+              '3_As well as': get('w3'),
+              '4_Our team might': get('w4'),
+              '5_We can': get('w5'),
+              '6_I will be': get('w6')
+            }
+          }
+        };
+      }
+
+      const DRAFT_KEY = 'ccli-corporate-wellbeing-3-4-9c-draft-v1';
+
+      function saveDraft() {
+        try {
+          const draft = {
+            name: studentName.value,
+            id: studentId.value,
+            answers: collectAnswers()
+          };
+          localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+        } catch (_) {}
+      }
+
+      function restoreDraft() {
+        try {
+          const raw = localStorage.getItem(DRAFT_KEY);
+          if (!raw) return;
+          const draft = JSON.parse(raw);
+          studentName.value = draft.name || '';
+          studentId.value = draft.id || '';
+          const a = draft.answers || {};
+          const mapValues = (obj, ids) => {
+            if (!obj) return;
+            ids.forEach((id, index) => {
+              const key = String(index + 1);
+              if (obj[key] !== undefined) document.getElementById(id).value = obj[key];
+            });
+          };
+          mapValues(a.activity_3_scanning_for_vocabulary, groups.activity3);
+          mapValues(a.activity_4_reading_comprehension, groups.activity4);
+          mapValues(a.activity_9C_first_conditional?.gap_fill, groups.activity9c);
+          const w = a.activity_9C_first_conditional?.writing || {};
+          const writingKeys = [
+            '1_As soon as my manager','2_When my company','3_As well as',
+            '4_Our team might','5_We can','6_I will be'
+          ];
+          writingKeys.forEach((key, index) => {
+            if (w[key] !== undefined) document.getElementById(`w${index + 1}`).value = w[key];
+          });
+        } catch (_) {}
+      }
+
+      function setStatus(type, message) {
+        const box = document.getElementById('sendStatus');
+        box.className = `send-status ${type}`;
+        box.textContent = message;
+      }
+
+      async function sendSubmission() {
+        const name = studentName.value.trim();
+        if (!name) {
+          setStatus('err', 'Please enter your name before sending.');
+          studentName.focus();
+          return;
+        }
+
+        const score = calculateAll(false);
+        const wordCount = updateWordCounts();
+        const payload = {
+          lesson: LESSON_NAME,
+          submitted_at: new Date().toISOString(),
+          student: {
+            id: studentId.value.trim(),
+            name
+          },
+          score,
+          word_count: wordCount,
+          answers: collectAnswers(),
+          client: {
+            page: location.href,
+            user_agent: navigator.userAgent
+          }
+        };
+
+        const sendBtn = document.getElementById('sendBtn');
+        sendBtn.disabled = true;
+        sendBtn.textContent = 'Sending…';
+        setStatus('ok', 'Sending your answers…');
+
+        try {
+          await fetch(WEB_APP_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload),
+            redirect: 'follow'
+          });
+          setStatus('ok', 'SUBMISSION SENT — your answers were sent to the teacher.');
+          try {
+            localStorage.setItem(`${DRAFT_KEY}-last-submission`, JSON.stringify(payload));
+            localStorage.removeItem(DRAFT_KEY);
+          } catch (_) {}
+        } catch (error) {
+          console.error(error);
+          setStatus('err', 'The submission could not be sent. Check your internet connection and try again.');
+        } finally {
+          sendBtn.disabled = false;
+          sendBtn.textContent = 'Send to Teacher';
+        }
+      }
+
+      document.getElementById('sendBtn').addEventListener('click', sendSubmission);
+
+      restoreDraft();
+      updateWordCounts();
+      calculateAll(false);
+    })();
+  </script>
+</body>
+</html>
