@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light" />
+  <title>Homework | CCLi English Lessons</title>
+  <style>
+    :root {
+      --blue: #0b4f8a;
+      --blue-dark: #083d6c;
+      --blue-soft: #eaf4fb;
+      --ink: #17212b;
+      --muted: #64748b;
+      --line: #d7e2ec;
+      --paper: #ffffff;
+      --page: #f4f7fa;
+      --green: #1f7a4d;
+      --shadow: 0 12px 32px rgba(19, 46, 73, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    .topbar {
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue));
+      color: #fff;
+      padding: 34px 20px 30px;
+    }
+
+    .topbar-inner,
+    main {
+      width: min(980px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      margin: 0 0 5px;
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-weight: 800;
+      opacity: .85;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.05;
+      letter-spacing: -.035em;
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      color: rgba(255,255,255,.88);
+      max-width: 720px;
+    }
+
+    main { padding: 28px 0 52px; }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-wrap input {
+      width: 100%;
+      border: 1.5px solid #b8c8d8;
+      border-radius: 12px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      padding: 12px 14px 12px 42px;
+      outline: none;
+      box-shadow: var(--shadow);
+    }
+
+    .search-wrap input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(11,79,138,.12), var(--shadow);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    .count {
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+      border: 1px solid #c9dceb;
+      border-radius: 999px;
+      padding: 9px 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .status,
+    .empty {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 28px;
+      text-align: center;
+      color: var(--muted);
+      box-shadow: var(--shadow);
+    }
+
+    .homework-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .homework-card {
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 17px 18px;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      color: inherit;
+      transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+    }
+
+    .homework-card:hover {
+      transform: translateY(-2px);
+      border-color: #9fbfd8;
+      box-shadow: 0 16px 36px rgba(19, 46, 73, 0.12);
+    }
+
+    .icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+      font-size: 1.45rem;
+      font-weight: 900;
+    }
+
+    .meta {
+      min-width: 0;
+    }
+
+    .title {
+      margin: 0;
+      color: var(--blue-dark);
+      font-size: 1.06rem;
+      font-weight: 850;
+      line-height: 1.25;
+    }
+
+    .path {
+      margin: 5px 0 0;
+      color: var(--muted);
+      font-size: .82rem;
+      overflow-wrap: anywhere;
+    }
+
+    .open {
+      color: var(--blue);
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 28px 16px 36px;
+      color: #7b8794;
+      font-size: .8rem;
+    }
+
+    @media (max-width: 650px) {
+      .toolbar { grid-template-columns: 1fr; }
+      .count { justify-self: start; }
+      .homework-card {
+        grid-template-columns: 46px minmax(0,1fr);
+        gap: 12px;
+        padding: 15px;
+      }
+      .icon { width: 46px; height: 46px; }
+      .open { grid-column: 2; margin-top: -4px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <p class="eyebrow">CCLi English Lessons</p>
+      <h1>Homework</h1>
+      <p class="subtitle">Choose an activity below. New homework files added to this folder are listed automatically.</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input id="search" type="search" placeholder="Search homework..." autocomplete="off" />
+      </div>
+      <div class="count" id="count">Loading…</div>
+    </div>
+
+    <div id="status" class="status">Loading homework…</div>
+    <div id="list" class="homework-list" hidden></div>
+    <div id="empty" class="empty" hidden>No homework found.</div>
+  </main>
+
+  <div class="footer">CCLi · Interactive Homework</div>
+
+  <script>
+    /*
+      AUTO-LISTING SETUP
+      ------------------
+      This index uses the GitHub API to list every .html file in the SAME
+      GitHub Pages folder where this index.html is stored.
+
+      For the user site:
+        https://teacher-victorb.github.io/
+
+      Repository:
+        teacher-victorb/teacher-victorb.github.io
+
+      If the repository name ever changes, edit OWNER and REPO below.
+    */
+
+    const OWNER = "teacher-victorb";
+    const REPO = "teacher-victorb.github.io";
+    const BRANCH = "main";
+
+    const listEl = document.getElementById("list");
+    const statusEl = document.getElementById("status");
+    const emptyEl = document.getElementById("empty");
+    const countEl = document.getElementById("count");
+    const searchEl = document.getElementById("search");
+
+    // Detects the folder where index.html itself is published.
+    // Example:
+    // /homework/index.html -> "homework"
+    // /A1.1/homework/index.html -> "A1.1/homework"
+    function getCurrentFolder() {
+      const pathname = decodeURIComponent(window.location.pathname);
+      const withoutFile = pathname.endsWith("/")
+        ? pathname
+        : pathname.slice(0, pathname.lastIndexOf("/") + 1);
+
+      return withoutFile
+        .replace(/^\/+|\/+$/g, "");
+    }
+
+    const FOLDER = getCurrentFolder();
+
+    function prettyName(filename) {
+      return filename
+        .replace(/\.html?$/i, "")
+        .replace(/[_-]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+        .replace(/\b\w/g, letter => letter.toUpperCase());
+    }
+
+    function isHomeworkFile(item) {
+      if (!item || item.type !== "file") return false;
+      if (!/\.html?$/i.test(item.name)) return false;
+      if (/^index\.html?$/i.test(item.name)) return false;
+      return true;
+    }
+
+    async function fetchTitle(downloadUrl, fallback) {
+      try {
+        const response = await fetch(downloadUrl, { cache: "no-store" });
+        if (!response.ok) return fallback;
+
+        const text = await response.text();
+
+        // Prefer an explicit homework title, if present:
+        // <meta name="homework-title" content="Corporate Well-Being">
+        const metaMatch = text.match(
+          /<meta\s+name=["']homework-title["']\s+content=["']([^"']+)["'][^>]*>/i
+        );
+        if (metaMatch && metaMatch[1].trim()) return metaMatch[1].trim();
+
+        const titleMatch = text.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+        if (!titleMatch) return fallback;
+
+        const temp = document.createElement("textarea");
+        temp.innerHTML = titleMatch[1].replace(/\s+/g, " ").trim();
+        return temp.value || fallback;
+      } catch {
+        return fallback;
+      }
+    }
+
+    function makeRelativeUrl(filename) {
+      return "./" + encodeURIComponent(filename)
+        .replace(/%2F/gi, "/");
+    }
+
+    function render(items) {
+      const query = searchEl.value.trim().toLowerCase();
+
+      const filtered = items.filter(item => {
+        const haystack = `${item.title} ${item.name}`.toLowerCase();
+        return !query || haystack.includes(query);
+      });
+
+      listEl.innerHTML = "";
+
+      filtered.forEach((item, index) => {
+        const a = document.createElement("a");
+        a.className = "homework-card";
+        a.href = makeRelativeUrl(item.name);
+
+        const icon = document.createElement("div");
+        icon.className = "icon";
+        icon.textContent = index + 1;
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+
+        const title = document.createElement("h2");
+        title.className = "title";
+        title.textContent = item.title;
+
+        const path = document.createElement("p");
+        path.className = "path";
+        path.textContent = item.name;
+
+        meta.append(title, path);
+
+        const open = document.createElement("div");
+        open.className = "open";
+        open.textContent = "Open →";
+
+        a.append(icon, meta, open);
+        listEl.appendChild(a);
+      });
+
+      const total = items.length;
+      countEl.textContent = `${total} homework${total === 1 ? "" : "s"}`;
+
+      emptyEl.hidden = filtered.length !== 0;
+      listEl.hidden = filtered.length === 0;
+    }
+
+    async function loadHomework() {
+      const pathPart = FOLDER ? "/" + FOLDER : "";
+      const apiUrl =
+        `https://api.github.com/repos/${OWNER}/${REPO}/contents${pathPart}?ref=${encodeURIComponent(BRANCH)}`;
+
+      try {
+        const response = await fetch(apiUrl, {
+          headers: { "Accept": "application/vnd.github+json" },
+          cache: "no-store"
+        });
+
+        if (!response.ok) {
+          throw new Error(`GitHub API returned ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+          throw new Error("The current path is not a GitHub folder.");
+        }
+
+        const files = data
+          .filter(isHomeworkFile)
+          .sort((a, b) => a.name.localeCompare(b.name, undefined, {
+            numeric: true,
+            sensitivity: "base"
+          }));
+
+        const enriched = await Promise.all(
+          files.map(async file => ({
+            ...file,
+            title: await fetchTitle(file.download_url, prettyName(file.name))
+          }))
+        );
+
+        statusEl.hidden = true;
+        listEl.hidden = false;
+        render(enriched);
+
+        searchEl.addEventListener("input", () => render(enriched));
+      } catch (error) {
+        console.error(error);
+        countEl.textContent = "Unavailable";
+        statusEl.textContent =
+          "I couldn't load the homework list automatically. Check that this index is inside the GitHub Pages repository and that OWNER, REPO and BRANCH are correct.";
+      }
+    }
+
+    loadHomework();
+  </script>
+</body>
+</html>
