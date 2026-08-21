@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="color-scheme" content="light" />
   <title>Homework | CCLi English Lessons</title>
+
   <style>
     :root {
       --blue: #0b4f8a;
@@ -15,7 +16,6 @@
       --line: #d7e2ec;
       --paper: #ffffff;
       --page: #f4f7fa;
-      --green: #1f7a4d;
       --shadow: 0 12px 32px rgba(19, 46, 73, 0.08);
     }
 
@@ -32,7 +32,7 @@
     .topbar {
       background: linear-gradient(135deg, var(--blue-dark), var(--blue));
       color: #fff;
-      padding: 34px 20px 30px;
+      padding: 36px 20px 32px;
     }
 
     .topbar-inner,
@@ -42,7 +42,7 @@
     }
 
     .eyebrow {
-      margin: 0 0 5px;
+      margin: 0 0 6px;
       font-size: .78rem;
       text-transform: uppercase;
       letter-spacing: .12em;
@@ -52,25 +52,27 @@
 
     h1 {
       margin: 0;
-      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-size: clamp(2.1rem, 5vw, 3.25rem);
       line-height: 1.05;
       letter-spacing: -.035em;
     }
 
     .subtitle {
-      margin: 10px 0 0;
-      color: rgba(255,255,255,.88);
+      margin: 11px 0 0;
+      color: rgba(255,255,255,.9);
       max-width: 720px;
     }
 
-    main { padding: 28px 0 52px; }
+    main {
+      padding: 28px 0 54px;
+    }
 
     .toolbar {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 12px;
-      margin-bottom: 20px;
       align-items: center;
+      margin-bottom: 20px;
     }
 
     .search-wrap {
@@ -158,13 +160,11 @@
       place-items: center;
       background: var(--blue-soft);
       color: var(--blue-dark);
-      font-size: 1.45rem;
+      font-size: 1.25rem;
       font-weight: 900;
     }
 
-    .meta {
-      min-width: 0;
-    }
+    .meta { min-width: 0; }
 
     .title {
       margin: 0;
@@ -174,7 +174,7 @@
       line-height: 1.25;
     }
 
-    .path {
+    .filename {
       margin: 5px 0 0;
       color: var(--muted);
       font-size: .82rem;
@@ -197,22 +197,34 @@
     @media (max-width: 650px) {
       .toolbar { grid-template-columns: 1fr; }
       .count { justify-self: start; }
+
       .homework-card {
-        grid-template-columns: 46px minmax(0,1fr);
+        grid-template-columns: 46px minmax(0, 1fr);
         gap: 12px;
         padding: 15px;
       }
-      .icon { width: 46px; height: 46px; }
-      .open { grid-column: 2; margin-top: -4px; }
+
+      .icon {
+        width: 46px;
+        height: 46px;
+      }
+
+      .open {
+        grid-column: 2;
+        margin-top: -4px;
+      }
     }
   </style>
 </head>
+
 <body>
   <header class="topbar">
     <div class="topbar-inner">
       <p class="eyebrow">CCLi English Lessons</p>
       <h1>Homework</h1>
-      <p class="subtitle">Choose an activity below. New homework files added to this folder are listed automatically.</p>
+      <p class="subtitle">
+        Choose your homework below. New HTML activities added to this folder are listed automatically.
+      </p>
     </div>
   </header>
 
@@ -220,8 +232,14 @@
     <div class="toolbar">
       <div class="search-wrap">
         <span class="search-icon">⌕</span>
-        <input id="search" type="search" placeholder="Search homework..." autocomplete="off" />
+        <input
+          id="search"
+          type="search"
+          placeholder="Search homework..."
+          autocomplete="off"
+        />
       </div>
+
       <div class="count" id="count">Loading…</div>
     </div>
 
@@ -234,23 +252,23 @@
 
   <script>
     /*
-      AUTO-LISTING SETUP
-      ------------------
-      This index uses the GitHub API to list every .html file in the SAME
-      GitHub Pages folder where this index.html is stored.
+      CONFIGURED FOR:
+      https://teacher-victorb.github.io/homework/
 
-      For the user site:
-        https://teacher-victorb.github.io/
+      GitHub repository:
+      teacher-victorb/teacher-victorb.github.io
 
-      Repository:
-        teacher-victorb/teacher-victorb.github.io
+      Folder monitored:
+      /homework/
 
-      If the repository name ever changes, edit OWNER and REPO below.
+      Just upload new .html homework files into /homework/.
+      This index.html does not need to be edited again.
     */
 
     const OWNER = "teacher-victorb";
     const REPO = "teacher-victorb.github.io";
     const BRANCH = "main";
+    const HOMEWORK_FOLDER = "homework";
 
     const listEl = document.getElementById("list");
     const statusEl = document.getElementById("status");
@@ -258,21 +276,7 @@
     const countEl = document.getElementById("count");
     const searchEl = document.getElementById("search");
 
-    // Detects the folder where index.html itself is published.
-    // Example:
-    // /homework/index.html -> "homework"
-    // /A1.1/homework/index.html -> "A1.1/homework"
-    function getCurrentFolder() {
-      const pathname = decodeURIComponent(window.location.pathname);
-      const withoutFile = pathname.endsWith("/")
-        ? pathname
-        : pathname.slice(0, pathname.lastIndexOf("/") + 1);
-
-      return withoutFile
-        .replace(/^\/+|\/+$/g, "");
-    }
-
-    const FOLDER = getCurrentFolder();
+    let allHomework = [];
 
     function prettyName(filename) {
       return filename
@@ -284,60 +288,68 @@
     }
 
     function isHomeworkFile(item) {
-      if (!item || item.type !== "file") return false;
-      if (!/\.html?$/i.test(item.name)) return false;
-      if (/^index\.html?$/i.test(item.name)) return false;
-      return true;
+      return (
+        item &&
+        item.type === "file" &&
+        /\.html?$/i.test(item.name) &&
+        !/^index\.html?$/i.test(item.name)
+      );
     }
 
-    async function fetchTitle(downloadUrl, fallback) {
+    async function getHomeworkTitle(file) {
+      const fallback = prettyName(file.name);
+
       try {
-        const response = await fetch(downloadUrl, { cache: "no-store" });
+        const response = await fetch(file.download_url, { cache: "no-store" });
         if (!response.ok) return fallback;
 
-        const text = await response.text();
+        const html = await response.text();
 
-        // Prefer an explicit homework title, if present:
+        // Optional custom title:
         // <meta name="homework-title" content="Corporate Well-Being">
-        const metaMatch = text.match(
+        const customTitle = html.match(
           /<meta\s+name=["']homework-title["']\s+content=["']([^"']+)["'][^>]*>/i
         );
-        if (metaMatch && metaMatch[1].trim()) return metaMatch[1].trim();
 
-        const titleMatch = text.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
-        if (!titleMatch) return fallback;
+        if (customTitle && customTitle[1].trim()) {
+          return customTitle[1].trim();
+        }
 
-        const temp = document.createElement("textarea");
-        temp.innerHTML = titleMatch[1].replace(/\s+/g, " ").trim();
-        return temp.value || fallback;
-      } catch {
-        return fallback;
+        // Otherwise, use the page <title>.
+        const titleTag = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+
+        if (titleTag) {
+          const decoder = document.createElement("textarea");
+          decoder.innerHTML = titleTag[1].replace(/\s+/g, " ").trim();
+          const title = decoder.value.trim();
+
+          if (title) return title;
+        }
+      } catch (error) {
+        console.warn("Could not read title for:", file.name, error);
       }
+
+      return fallback;
     }
 
-    function makeRelativeUrl(filename) {
-      return "./" + encodeURIComponent(filename)
-        .replace(/%2F/gi, "/");
-    }
-
-    function render(items) {
+    function render() {
       const query = searchEl.value.trim().toLowerCase();
 
-      const filtered = items.filter(item => {
-        const haystack = `${item.title} ${item.name}`.toLowerCase();
-        return !query || haystack.includes(query);
+      const filtered = allHomework.filter(item => {
+        const searchable = `${item.title} ${item.name}`.toLowerCase();
+        return searchable.includes(query);
       });
 
       listEl.innerHTML = "";
 
       filtered.forEach((item, index) => {
-        const a = document.createElement("a");
-        a.className = "homework-card";
-        a.href = makeRelativeUrl(item.name);
+        const card = document.createElement("a");
+        card.className = "homework-card";
+        card.href = "./" + encodeURIComponent(item.name);
 
-        const icon = document.createElement("div");
-        icon.className = "icon";
-        icon.textContent = index + 1;
+        const number = document.createElement("div");
+        number.className = "icon";
+        number.textContent = index + 1;
 
         const meta = document.createElement("div");
         meta.className = "meta";
@@ -346,74 +358,85 @@
         title.className = "title";
         title.textContent = item.title;
 
-        const path = document.createElement("p");
-        path.className = "path";
-        path.textContent = item.name;
+        const filename = document.createElement("p");
+        filename.className = "filename";
+        filename.textContent = item.name;
 
-        meta.append(title, path);
+        meta.append(title, filename);
 
         const open = document.createElement("div");
         open.className = "open";
         open.textContent = "Open →";
 
-        a.append(icon, meta, open);
-        listEl.appendChild(a);
+        card.append(number, meta, open);
+        listEl.appendChild(card);
       });
 
-      const total = items.length;
+      const total = allHomework.length;
       countEl.textContent = `${total} homework${total === 1 ? "" : "s"}`;
 
-      emptyEl.hidden = filtered.length !== 0;
-      listEl.hidden = filtered.length === 0;
+      if (filtered.length === 0) {
+        listEl.hidden = true;
+        emptyEl.hidden = false;
+      } else {
+        listEl.hidden = false;
+        emptyEl.hidden = true;
+      }
     }
 
     async function loadHomework() {
-      const pathPart = FOLDER ? "/" + FOLDER : "";
       const apiUrl =
-        `https://api.github.com/repos/${OWNER}/${REPO}/contents${pathPart}?ref=${encodeURIComponent(BRANCH)}`;
+        `https://api.github.com/repos/${OWNER}/${REPO}/contents/${HOMEWORK_FOLDER}?ref=${BRANCH}`;
 
       try {
         const response = await fetch(apiUrl, {
-          headers: { "Accept": "application/vnd.github+json" },
+          headers: {
+            "Accept": "application/vnd.github+json"
+          },
           cache: "no-store"
         });
 
         if (!response.ok) {
-          throw new Error(`GitHub API returned ${response.status}`);
+          throw new Error(`GitHub API returned HTTP ${response.status}`);
         }
 
         const data = await response.json();
 
         if (!Array.isArray(data)) {
-          throw new Error("The current path is not a GitHub folder.");
+          throw new Error("The homework path is not a folder.");
         }
 
         const files = data
           .filter(isHomeworkFile)
-          .sort((a, b) => a.name.localeCompare(b.name, undefined, {
-            numeric: true,
-            sensitivity: "base"
-          }));
+          .sort((a, b) =>
+            a.name.localeCompare(b.name, undefined, {
+              numeric: true,
+              sensitivity: "base"
+            })
+          );
 
-        const enriched = await Promise.all(
+        allHomework = await Promise.all(
           files.map(async file => ({
-            ...file,
-            title: await fetchTitle(file.download_url, prettyName(file.name))
+            name: file.name,
+            title: await getHomeworkTitle(file)
           }))
         );
 
         statusEl.hidden = true;
-        listEl.hidden = false;
-        render(enriched);
+        render();
 
-        searchEl.addEventListener("input", () => render(enriched));
       } catch (error) {
         console.error(error);
+
         countEl.textContent = "Unavailable";
-        statusEl.textContent =
-          "I couldn't load the homework list automatically. Check that this index is inside the GitHub Pages repository and that OWNER, REPO and BRANCH are correct.";
+        statusEl.innerHTML =
+          "<strong>Could not load the homework list.</strong><br>" +
+          "Check that the <code>homework</code> folder exists in the " +
+          "<code>teacher-victorb.github.io</code> repository and that GitHub Pages is active.";
       }
     }
+
+    searchEl.addEventListener("input", render);
 
     loadHomework();
   </script>
