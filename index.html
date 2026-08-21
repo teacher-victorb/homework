@@ -63,9 +63,7 @@
       max-width: 720px;
     }
 
-    main {
-      padding: 28px 0 54px;
-    }
+    main { padding: 28px 0 54px; }
 
     .toolbar {
       display: grid;
@@ -75,9 +73,7 @@
       margin-bottom: 20px;
     }
 
-    .search-wrap {
-      position: relative;
-    }
+    .search-wrap { position: relative; }
 
     .search-wrap input {
       width: 100%;
@@ -223,7 +219,7 @@
       <p class="eyebrow">CCLi English Lessons</p>
       <h1>Homework</h1>
       <p class="subtitle">
-        Choose your homework below. New HTML activities added to this folder are listed automatically.
+        Choose your homework below. New HTML activities added to this repository are listed automatically.
       </p>
     </div>
   </header>
@@ -232,12 +228,7 @@
     <div class="toolbar">
       <div class="search-wrap">
         <span class="search-icon">⌕</span>
-        <input
-          id="search"
-          type="search"
-          placeholder="Search homework..."
-          autocomplete="off"
-        />
+        <input id="search" type="search" placeholder="Search homework..." autocomplete="off" />
       </div>
 
       <div class="count" id="count">Loading…</div>
@@ -252,23 +243,23 @@
 
   <script>
     /*
-      CONFIGURED FOR:
-      https://teacher-victorb.github.io/homework/
+      CORRECT CONFIGURATION FOR:
 
       GitHub repository:
-      teacher-victorb/teacher-victorb.github.io
+      https://github.com/teacher-victorb/homework
 
-      Folder monitored:
-      /homework/
+      GitHub Pages:
+      https://teacher-victorb.github.io/homework/
 
-      Just upload new .html homework files into /homework/.
-      This index.html does not need to be edited again.
+      IMPORTANT:
+      The homework files are in the ROOT of the "homework" repository.
+      Therefore, the API must read the repository root — not a /homework/
+      folder inside another repository.
     */
 
     const OWNER = "teacher-victorb";
-    const REPO = "teacher-victorb.github.io";
+    const REPO = "homework";
     const BRANCH = "main";
-    const HOMEWORK_FOLDER = "homework";
 
     const listEl = document.getElementById("list");
     const statusEl = document.getElementById("status");
@@ -301,13 +292,14 @@
 
       try {
         const response = await fetch(file.download_url, { cache: "no-store" });
+
         if (!response.ok) return fallback;
 
-        const html = await response.text();
+        const source = await response.text();
 
         // Optional custom title:
         // <meta name="homework-title" content="Corporate Well-Being">
-        const customTitle = html.match(
+        const customTitle = source.match(
           /<meta\s+name=["']homework-title["']\s+content=["']([^"']+)["'][^>]*>/i
         );
 
@@ -315,16 +307,16 @@
           return customTitle[1].trim();
         }
 
-        // Otherwise, use the page <title>.
-        const titleTag = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+        const titleTag = source.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
 
         if (titleTag) {
           const decoder = document.createElement("textarea");
           decoder.innerHTML = titleTag[1].replace(/\s+/g, " ").trim();
-          const title = decoder.value.trim();
 
+          const title = decoder.value.trim();
           if (title) return title;
         }
+
       } catch (error) {
         console.warn("Could not read title for:", file.name, error);
       }
@@ -345,6 +337,9 @@
       filtered.forEach((item, index) => {
         const card = document.createElement("a");
         card.className = "homework-card";
+
+        // Since index.html and homework files are in the same repository root,
+        // a relative link is enough.
         card.href = "./" + encodeURIComponent(item.name);
 
         const number = document.createElement("div");
@@ -375,18 +370,14 @@
       const total = allHomework.length;
       countEl.textContent = `${total} homework${total === 1 ? "" : "s"}`;
 
-      if (filtered.length === 0) {
-        listEl.hidden = true;
-        emptyEl.hidden = false;
-      } else {
-        listEl.hidden = false;
-        emptyEl.hidden = true;
-      }
+      listEl.hidden = filtered.length === 0;
+      emptyEl.hidden = filtered.length !== 0;
     }
 
     async function loadHomework() {
+      // Correct API endpoint: ROOT of teacher-victorb/homework
       const apiUrl =
-        `https://api.github.com/repos/${OWNER}/${REPO}/contents/${HOMEWORK_FOLDER}?ref=${BRANCH}`;
+        `https://api.github.com/repos/${OWNER}/${REPO}/contents?ref=${encodeURIComponent(BRANCH)}`;
 
       try {
         const response = await fetch(apiUrl, {
@@ -403,7 +394,7 @@
         const data = await response.json();
 
         if (!Array.isArray(data)) {
-          throw new Error("The homework path is not a folder.");
+          throw new Error("GitHub did not return the repository file list.");
         }
 
         const files = data
@@ -429,10 +420,14 @@
         console.error(error);
 
         countEl.textContent = "Unavailable";
+        listEl.hidden = true;
+        emptyEl.hidden = true;
+        statusEl.hidden = false;
+
         statusEl.innerHTML =
           "<strong>Could not load the homework list.</strong><br>" +
-          "Check that the <code>homework</code> folder exists in the " +
-          "<code>teacher-victorb.github.io</code> repository and that GitHub Pages is active.";
+          "The page could not read the files from the " +
+          "<code>teacher-victorb/homework</code> repository.";
       }
     }
 
